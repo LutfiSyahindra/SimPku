@@ -20,7 +20,7 @@ class permissionsController extends Controller
      */
     public function index()
     {
-        return view('SIMRS.permission.permission');
+        return view('SIMRS.permission.permission',['pageTitle' => 'Permissions']);
     }
 
     public function table()

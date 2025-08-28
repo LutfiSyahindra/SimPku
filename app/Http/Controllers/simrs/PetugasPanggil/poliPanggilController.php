@@ -20,7 +20,7 @@ class poliPanggilController extends Controller
      */
     public function index()
     {
-        return view('SIMRS.petugasPanggil.poliPanggil');
+        return view('SIMRS.petugasPanggil.poliPanggil',['pageTitle' => 'Petugas Panggil Poli']);
     }
 
     public function getDataPoli()

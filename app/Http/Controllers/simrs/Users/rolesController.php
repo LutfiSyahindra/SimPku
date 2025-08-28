@@ -26,7 +26,7 @@ class rolesController extends Controller
      */
     public function index()
     {
-        return view('SIMRS.roles.roles');
+        return view('SIMRS.roles.roles',['pageTitle' => 'Roles']);
     }
 
     public function table()

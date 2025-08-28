@@ -26,7 +26,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('SIMRS.users.users');
+        return view('SIMRS.users.users',['pageTitle' => 'Users']);
     }
 
     public function table(){

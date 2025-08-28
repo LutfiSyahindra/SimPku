@@ -72,10 +72,9 @@
                     <div class="auth-brand text-center text-lg-start d-flex align-items-center">
                         <a href="index.html" class="logo-dark d-flex align-items-center">
                             <span>
-                                <img src="{{ asset("dist/assets/images/logoArsy.png") }}" alt="dark logo"
-                                    height="60">
+                                <img src="{{ asset("dist/assets/images/Pku.png") }}" alt="dark logo" height="90">
                             </span>
-                            <span class="ms-2 h4 mb-0 text-dark d-none d-lg-inline">SIMRS ARSY</span>
+                            <span class="ms-2 h4 mb-0 text-dark d-none d-lg-inline">SIM PKU KARANGASEM</span>
                         </a>
                     </div>
 

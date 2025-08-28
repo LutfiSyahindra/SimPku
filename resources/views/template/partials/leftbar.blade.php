@@ -3,7 +3,7 @@
     <!-- Brand Logo Dark -->
     <a href="index.html" class="logo logo-dark">
         <span>
-            <img src="{{ asset("dist/assets/images/logoArsy.png") }}" alt="dark logo" height="50">
+            <img src="{{ asset("dist/assets/images/Pku.png") }}" alt="dark logo" height="55">
             {{-- <span class="ms-2 h4 mb-0 text-dark d-none d-lg-inline">SIMRS ARSY</span> --}}
         </span>
         <span class="logo-sm">

@@ -9,6 +9,6 @@ class PoliWsController extends Controller
 {
     public function index()
     {
-        return view('SIMRS.display.displayPoliWS');
+        return view('SIMRS.display.displayPoliWS',['pageTitle' => 'Display Poli WS']);
     }
 }
