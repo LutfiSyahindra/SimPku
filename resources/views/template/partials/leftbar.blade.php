@@ -43,13 +43,13 @@
         <!--- Sidemenu -->
         <ul class="side-nav">
 
-            <li class="side-nav-item">
+            {{-- <li class="side-nav-item">
                 <a href="index.html" class="side-nav-link">
                     <i class="ri-dashboard-2-fill"></i>
                     <span class="badge bg-success float-end">9+</span>
                     <span> Dashboard </span>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="side-nav-title mt-1">
                 <h6>Setting</h6>
