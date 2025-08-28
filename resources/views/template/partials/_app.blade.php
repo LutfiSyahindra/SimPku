@@ -4,6 +4,7 @@
     <head>
         @include("template.partials.head")
         @yield("styles")
+
         {{-- @vite(["resources/js/app.js"]) --}}
     </head>
 
