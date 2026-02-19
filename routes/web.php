@@ -11,6 +11,7 @@ use App\Http\Controllers\simrs\display\KasirKhnzaController;
 use App\Http\Controllers\simrs\display\PippController;
 use App\Http\Controllers\simrs\display\PoliController;
 use App\Http\Controllers\simrs\display\PoliWsController;
+use App\Http\Controllers\simrs\Dokumen\CetakDokumenLengkapController;
 use App\Http\Controllers\simrs\It\ItController;
 use App\Http\Controllers\simrs\PetugasPanggil\kasirPanggilController;
 use App\Http\Controllers\simrs\PetugasPanggil\pippPanggilController;
@@ -35,7 +36,10 @@ use Illuminate\Support\Facades\Route;
     Route::get('simrs/anjungan/admisi/cetakAntrian/{nomor}', [admisiController::class, 'cetakAntrian'])->name('anjungan.admisi.cetakAntrian');
     // Antrian Farmasi
     Route::post('simrs/anjungan/antrianFarmasi/generateNoAntrianFarmasi', [antrianFarmasiController::class, 'generateAntrian'])->name('anjungan.antrianFarmasi.generateAntrian');
-    Route::get('simrs/anjungan/antriFarmasi/cetakAntrian/{nomor}', [antrianFarmasiController::class, 'cetakAntrian'])->name('anjungan.antrianFarmasi.cetakAntrian');        
+    Route::get('simrs/anjungan/antriFarmasi/cetakAntrian/{nomor}', [antrianFarmasiController::class, 'cetakAntrian'])->name('anjungan.antrianFarmasi.cetakAntrian');
+
+    // Dokumen
+    Route::get('simrs/report/ranap', [CetakDokumenLengkapController::class, 'cetak'])->name('report.ranap');   
 
 Route::get('/', function () {
     return view('auth.login');
@@ -49,22 +53,6 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
 
     Route::prefix('simrs')->group(function () {
-
-         // Wagateway
-        Route::get('/waGateway/wa', [QrCodeController::class, 'index']);
-        Route::get('/wa-qr-view', [QrCodeController::class, 'showQrPage'])->name('wa-qr-view');
-        Route::get('/wa-qr-fetch', [QrCodeController::class, 'fetchQr'])->name('wa-qr-fetchQr');
-        Route::post('/qr/receive', [QrCodeController::class, 'receiveQr']);
-        Route::get('/qrcode', [QrCodeController::class, 'show']);
-        Route::get('/waGetway/Dashboard', [DashboardWaController::class, 'index']);
-        Route::get('/waGetway/terkirim', [DashboardWaController::class, 'widgetTerkirim']);
-        Route::get('/waGetway/terjadwal', [DashboardWaController::class, 'widgetTerjadwal']);
-        Route::get('/waGetway/gagal', [DashboardWaController::class, 'widgetGagal']);
-        Route::get('/waGetway/belum', [DashboardWaController::class, 'widgetBelum']);
-        Route::get('/waGetway/batal', [DashboardWaController::class, 'widgetBatal']);
-        Route::get('/waGetway/tabledata', [DashboardWaController::class, 'tabelData']);
-        Route::get('/waGetway/LaporanWa', [DashboardWaController::class, 'laporanWa']);
-        Route::get('/waGetway/log/{id}', [DashboardWaController::class, 'detailLog']);
 
         // Display Poli
         Route::get('/display/poli', [PoliController::class, 'index'])->name('display.poli');
@@ -134,53 +122,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/permissions/{id}/edit', [permissionsController::class, 'edit'])->name('permissions.edit');
         Route::put('/permissions/{id}/update', [permissionsController::class, 'update'])->name('permissions.update');
         Route::delete('/permissions/{id}/delete', [permissionsController::class, 'destroy'])->name('permissions.delete');
-
-        // It
-        Route::get('/khususIt/index', [ItController::class, 'index'])->name('khususIt.index');
-        Route::get('/khususIt/laporan', [ItController::class, 'viewLaporan'])->name('khususIt.laporan');
-        Route::get('/khususIt/laporan/table', [ItController::class, 'table'])->name('khususIt.laporan.table');
-        Route::post('/khususIt/laporan/store', [ItController::class, 'store'])->name('khususIt.laporan.store');
-        Route::get('/khususIt/laporan/{id}/edit', [ItController::class, 'edit'])->name('khususIt.laporan.edit');
-        Route::put('/khususIt/laporan/{id}/update', [ItController::class, 'update'])->name('khususIt.laporan.update');
-        Route::delete('/khususIt/laporan/{id}/delete', [ItController::class, 'destroy'])->name('khususIt.laporan.delete');
-
-        Route::get('/khususIt/widget/pengaduan', [ItController::class, 'widgetPengaduan'])->name('khususIt.widget.pengaduan');
-        Route::get('/khususIt/widget/restime', [ItController::class, 'widgetAverageResponseTime'])->name('khususIt.widget.restime');
-        Route::get('/khususIt/widget/donetime', [ItController::class, 'widgetAverageCompletionTime'])->name('khususIt.widget.donetime');
-
-        // TaskId
-        Route::get('/taskId/index', [taskIdController::class, 'index'])->name('taskId.index');
-        Route::get('/taskId/table', [TaskIdController::class, 'listTaskId'])->name('taskId.table');
-        Route::get('/taskId/getTaskId', [TaskIdController::class, 'getTaskId'])->name('taskId.getTaskId');
-        Route::get('/taskId/rataAdmisi', [TaskIdController::class, 'rataAdmisi'])->name('taskId.rataAdmisi');
-        Route::get('/taskId/rataPoli', [TaskIdController::class, 'rataPoli'])->name('taskId.rataPoli');
-        Route::get('/taskId/rataFarmasi', [TaskIdController::class, 'rataFarmasi'])->name('taskId.rataFarmasi');
-        Route::get('/taskId/dataTaskId', [TaskIdController::class, 'dataTaskId'])->name('taskId.dataTaskId');
-        Route::get('/taskId/detailTaskid', [TaskIdController::class, 'detailTaskid'])->name('taskId.detailTaskid');
-        Route::get('/taskId/taskIdOnsite', [TaskIdController::class, 'taskIdOnsite'])->name('taskId.taskIdOnsite');
-        Route::get('/taskId/taskIdMjkn', [TaskIdController::class, 'taskIdMjkn'])->name('taskId.taskIdMjkn');
-        Route::get('/taskId/logTaskId', [TaskIdController::class, 'logTaskId'])->name('taskId.logTaskId');
-
-        // Route::post('/taskId/store', [TaskIdController::class, 'store'])->name('taskId.store');
-        // Route::get('/taskId/{id}/edit', [TaskIdController::class, 'edit'])->name('taskId.edit');
-        // Route::put('/taskId/{id}/update', [TaskIdController::class, 'update'])->name('taskId.update');
-        // Route::delete('/taskId/{id}/delete', [TaskIdController::class, 'destroy'])->name('taskId.delete');
-
-        // Surat SDI
-        Route::get('/surat/kategori/index', [MasterSuratController::class, 'index'])->name('surat.kategori.index');
-        Route::get('/surat/kategori/table', [MasterSuratController::class, 'table'])->name('surat.kategori.table');
-        Route::post('/surat/kategori/store', [MasterSuratController::class, 'store'])->name('surat.kategori.store');
-        Route::get('/surat/kategori/{id}/edit', [MasterSuratController::class, 'edit'])->name('surat.kategori.edit');
-        Route::put('/surat/kategori/{id}/update', [MasterSuratController::class, 'update'])->name('surat.kategori.update');
-        Route::delete('/surat/kategori/{id}/destroy', [MasterSuratController::class, 'destroy'])->name('surat.kategori.destroy');
-
-        // Surat Masuk SDI
-        Route::get('/surat/masuk/index', [SuratMasukController::class, 'index'])->name('surat.masuk.index');
-        Route::get('/surat/masuk/table', [SuratMasukController::class, 'table'])->name('surat.masuk.table');
-        Route::post('/surat/masuk/store', [SuratMasukController::class, 'store'])->name('surat.masuk.store');
-        Route::get('/surat/masuk/{id}/edit', [SuratMasukController::class, 'edit'])->name('surat.masuk.edit');
-        Route::put('/surat/masuk/{id}/update', [SuratMasukController::class, 'update'])->name('surat.masuk.update');
-        Route::delete('/surat/masuk/{id}/destroy', [SuratMasukController::class, 'destroy'])->name('surat.masuk.destroy');
 
     });
 

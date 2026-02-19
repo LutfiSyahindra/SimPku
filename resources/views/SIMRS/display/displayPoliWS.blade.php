@@ -112,6 +112,21 @@
                 font-weight: bold;
             }
 
+            .queue-box .poli {
+                font-size: 64px;
+                font-weight: bold;
+            }
+
+            .queue-box .dokter {
+                font-size: 64px;
+                font-weight: bold;
+            }
+
+            .queue-box .name {
+                font-size: 64px;
+                font-weight: bold;
+            }
+
             .video-box video {
                 width: 100%;
                 border-radius: 10px;
@@ -176,7 +191,7 @@
     <body>
         <!-- Header -->
         <div class="header">
-            <img src="{{ asset("img/logoarsy.png") }}" alt="Logo RS" class="logo">
+            <img src="{{ asset("img/Pku.png") }}" alt="Logo RS" class="logo">
 
             <div class="header-text">
                 <h1>ANTRIAN POLIKLNIK RAWAT JALAN</h1>

@@ -11,8 +11,10 @@
         "laravel/framework": "^11.31",
         "laravel/reverb": "^1.4",
         "laravel/tinker": "^2.9",
+        "milon/barcode": "^12.1",
         "php-amqplib/php-amqplib": "^3.7",
         "pusher/pusher-php-server": "^7.2",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-permission": "^6.15",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "^14.1",
         "yajra/laravel-datatables-oracle": "^11.1"

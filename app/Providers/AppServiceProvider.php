@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
         Route::middleware('api') // ⬅️ Tambahkan ini
             ->prefix('api')
             ->group(base_path('routes/api.php'));
+
+        Carbon::setLocale('id');
     }
 
 }
