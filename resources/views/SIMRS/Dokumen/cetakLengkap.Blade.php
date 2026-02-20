@@ -361,494 +361,6 @@
 
     <body>
 
-        @if ($cppt)
-            {{-- ================= HEADER ================= --}}
-            <div class="header">
-                <table class="header-table" width="100%">
-                    @php
-                        $data = $cppt->first();
-
-                        $namaBersih = trim(
-                            preg_replace(
-                                '/^(SDR|TN|NY|AN|BY|NN)\s+|,?\s*(SDR|TN|NY|AN|BY|NN)$/i',
-                                "",
-                                $data->nm_pasien ?? "",
-                            ),
-                        );
-                    @endphp
-
-                    <tr>
-                        <td width="15%">
-                            <img src="{{ public_path("dist/assets/images/Pku.png") }}" height="85">
-                        </td>
-
-                        <td width="45%">
-                            <div class="rs-name">
-                                {{ $setting->nama_instansi ?? "NAMA FASILITAS KESEHATAN" }}
-                            </div>
-                            <div class="rs-address">
-                                {{ $setting->alamat_instansi ?? "" }} <br>
-                                {{ $setting->kabupaten ?? "" }} - {{ $setting->propinsi ?? "" }} <br>
-                                Telp: {{ $setting->kontak ?? "" }} |
-                                Email: {{ $setting->email ?? "" }}
-                            </div>
-                        </td>
-
-                        <td width="40%">
-                            <div class="patient-box">
-                                <b>No. RM</b> : {{ $data->no_rkm_medis ?? "" }} <br>
-                                <b>Nama</b> : {{ $namaBersih }} <br>
-                                <b>JK</b> :
-                                {{ ($data->jk ?? "") == "L" ? "Laki-laki" : "Perempuan" }} <br>
-                                <b>Tgl Lahir</b> :
-                                {{ $data->tgl_lahir ?? "" }} <br>
-                            </div>
-                            <br>
-                            Dicetak pada : {{ now()->format("d-m-Y H:i") }}
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            {{-- ================= CPPT ================= --}}
-            <div class="section-title">
-                Catatan Perkembangan Pasien Terintegrasi (CPPT)
-            </div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th width="12%">Tgl / Jam</th>
-                        <th width="12%">Profesi</th>
-                        <th width="46%">SOAP</th>
-                        <th width="15%">Instruksi</th>
-                        <th width="15%">Paraf</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach ($cppt as $row)
-                        <tr>
-                            <td class="text-center">
-                                {{ $row->tgl_perawatan }} <br>
-                                {{ $row->jam_rawat }}
-                            </td>
-
-                            <td>{{ $row->jabatan }}</td>
-
-                            <td>
-                                <div class="soap-title">S :</div>
-                                <div class="soap-content">
-                                    {!! nl2br(e($row->keluhan ?? "-")) !!}
-                                </div>
-
-                                <div class="soap-title">O :</div>
-                                <div class="soap-content">
-                                    {!! nl2br(e($row->pemeriksaan ?? "-")) !!}<br>
-                                    TD: {{ $row->tensi ?? "-" }} &nbsp;&nbsp;&nbsp;
-                                    S: {{ $row->suhu_tubuh ?? "-" }} &nbsp;&nbsp;&nbsp;
-                                    N: {{ $row->nadi ?? "-" }} &nbsp;&nbsp;&nbsp;
-                                    RR: {{ $row->respirasi ?? "-" }} &nbsp;&nbsp;&nbsp;
-                                    SpO2: {{ $row->spo2 ?? "-" }}
-
-                                </div>
-
-                                <div class="soap-title">A :</div>
-                                <div class="soap-content">
-                                    {!! nl2br(e($row->penilaian ?? "-")) !!}
-                                </div>
-
-                                <div class="soap-title">P :</div>
-                                <div class="soap-content">
-                                    {!! nl2br(e($row->rtl ?? "-")) !!}
-                                </div>
-                            </td>
-
-                            <td>{!! nl2br(e($row->instruksi ?? "-")) !!}</td>
-
-                            <td class="text-center">
-                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Dokter: " . $row->nama_dokter, "QRCODE", 3, 3) }}"
-                                    width="60">
-                                <div style="font-size:9px;margin-top:4px;">
-                                    {{ $row->nama_dokter }}
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @endif
-
-        {{-- ================= LAB ================= --}}
-        @if ($headerLab)
-            @php
-                $data = $cppt->first();
-
-                $namaBersih = trim(
-                    preg_replace('/^(SDR|TN|NY|AN|BY|NN)\s+|,?\s*(SDR|TN|NY|AN|BY|NN)$/i', "", $data->nm_pasien ?? ""),
-                );
-            @endphp
-            <div class="page-break"></div>
-            <div class="header">
-                <table class="header-table" width="100%">
-                    <tr>
-                        <td width="15%">
-                            <img src="{{ public_path("dist/assets/images/Pku.png") }}" height="85">
-                        </td>
-
-                        <td width="45%">
-                            <div class="rs-name">
-                                {{ $setting->nama_instansi ?? "NAMA FASILITAS KESEHATAN" }}
-                            </div>
-                            <div class="rs-address">
-                                {{ $setting->alamat_instansi ?? "" }} <br>
-                                {{ $setting->kabupaten ?? "" }} - {{ $setting->propinsi ?? "" }} <br>
-                                Telp: {{ $setting->kontak ?? "" }} |
-                                Email: {{ $setting->email ?? "" }}
-                            </div>
-                        </td>
-
-                        <td width="40%">
-                            <div class="patient-box">
-                                <b>No. RM</b> : {{ $data->no_rkm_medis ?? "" }} <br>
-                                <b>Nama</b> : {{ $namaBersih }} <br>
-                                <b>JK</b> :
-                                {{ ($data->jk ?? "") == "L" ? "Laki-laki" : "Perempuan" }} <br>
-                                <b>Tgl Lahir</b> :
-                                {{ $data->tgl_lahir ?? "" }} <br>
-                            </div>
-                            <br>
-                            Dicetak pada : {{ now()->format("d-m-Y H:i") }}
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="section-title">
-                Hasil Pemeriksaan Laboratorium
-            </div>
-
-            {{-- ================= HEADER LAB ================= --}}
-            <div class="lab-header-box">
-                <table class="lab-header-table" width="100%">
-                    <tr>
-                        <td width="50%">
-                            <b>No. Periksa</b> : {{ $headerLab->no_rawat }} <br>
-                            <b>Dokter Pengirim</b> : {{ $headerLab->dokter_perujuk_nama }} <br>
-                            <b>Petugas Lab</b> : {{ $headerLab->petugas_lab }}
-                        </td>
-
-                        <td width="50%">
-                            <b>Tgl. Keluar Hasil</b> : {{ $headerLab->tgl_periksa_format }} <br>
-                            <b>Jam Keluar Hasil</b> : {{ $headerLab->jam }}
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            {{-- ================= TABEL HASIL ================= --}}
-            <table class="lab-table">
-                <thead>
-                    <tr>
-                        <th width="35%">Pemeriksaan</th>
-                        <th width="15%">Hasil</th>
-                        <th width="15%">Satuan</th>
-                        <th width="20%">Nilai Rujukan</th>
-                        <th width="15%">Keterangan</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @php $group=null; @endphp
-                    @foreach ($detailLab as $item)
-                        @if ($group != $item->nm_perawatan)
-                            <tr class="lab-group">
-                                <td colspan="5">{{ $item->nm_perawatan }}</td>
-                            </tr>
-                            @php $group = $item->nm_perawatan; @endphp
-                        @endif
-
-                        <tr>
-                            <td>{{ $item->Pemeriksaan }}</td>
-                            <td class="text-center"><b>{{ $item->nilai }}</b></td>
-                            <td class="text-center">{{ $item->satuan }}</td>
-                            <td class="text-center">{{ $item->nilai_rujukan }}</td>
-                            <td class="text-center">{{ $item->keterangan }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            {{-- ================= LAB FOOTER ================= --}}
-            <div class="lab-footer">
-
-                <table class="lab-signature-table" width="100%">
-                    <tr>
-                        {{-- Penanggung Jawab --}}
-                        <td width="50%" align="center">
-                            <div class="signature-title">Penanggung Jawab</div>
-
-                            <div class="signature-box">
-                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Penanggung Jawab: " . $headerLab->nm_dokter, "QRCODE", 3, 3) }}"
-                                    width="80">
-                                <div style="margin-top:6px;">
-                                    {{ $headerLab->nm_dokter }}
-                                </div>
-                            </div>
-                        </td>
-
-                        {{-- Petugas Laboratorium --}}
-                        <td width="50%" align="center">
-                            <div class="signature-title" style="margin-top:5px;">
-                                Petugas Laboratorium
-                            </div>
-
-                            <div class="signature-box">
-                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Petugas Lab: " . $headerLab->petugas_lab, "QRCODE", 3, 3) }}"
-                                    width="80">
-                                <div style="margin-top:6px;">
-                                    {{ $headerLab->petugas_lab }}
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-
-            </div>
-
-        @endif
-
-        {{-- ================= RESUME MEDIS ================= --}}
-        @if ($resume)
-            @php
-                $data = $cppt->first();
-
-                $namaBersih = trim(
-                    preg_replace('/^(SDR|TN|NY|AN|BY|NN)\s+|,?\s*(SDR|TN|NY|AN|BY|NN)$/i', "", $data->nm_pasien ?? ""),
-                );
-            @endphp
-            <div class="page-break"></div>
-            <div class="header">
-                <table class="header-table" width="100%">
-                    <tr>
-                        <td width="15%">
-                            <img src="{{ public_path("dist/assets/images/Pku.png") }}" height="85">
-                        </td>
-
-                        <td width="45%">
-                            <div class="rs-name">
-                                {{ $setting->nama_instansi ?? "NAMA FASILITAS KESEHATAN" }}
-                            </div>
-                            <div class="rs-address">
-                                {{ $setting->alamat_instansi ?? "" }} <br>
-                                {{ $setting->kabupaten ?? "" }} - {{ $setting->propinsi ?? "" }} <br>
-                                Telp: {{ $setting->kontak ?? "" }} |
-                                Email: {{ $setting->email ?? "" }}
-                            </div>
-                        </td>
-
-                        <td width="40%">
-                            <div class="patient-box">
-                                <b>No. RM</b> : {{ $data->no_rkm_medis ?? "" }} <br>
-                                <b>Nama</b> : {{ $namaBersih }} <br>
-                                <b>JK</b> :
-                                {{ ($data->jk ?? "") == "L" ? "Laki-laki" : "Perempuan" }} <br>
-                                <b>Tgl Lahir</b> :
-                                {{ $data->tgl_lahir ?? "" }} <br>
-                            </div>
-                            <br>
-                            Dicetak pada : {{ now()->format("d-m-Y H:i") }}
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            {{-- ================= RESUME MEDIS ================= --}}
-            <div class="section-title">
-                Resume Medis (Medical Discharge Summary)
-            </div>
-
-            <table class="resume-identitas">
-                <tr>
-                    <td class="label border-end-0">Nama Lengkap</td>
-                    <td class="value border-start-0">
-                        : {{ $namaBersih }}
-                    </td>
-
-                    <td class="label border-end-0">Ruang / Kelas</td>
-                    <td class="value border-start-0">
-                        : {{ $resume->kd_kamar ?? "-" }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="label border-end-0">No. Reg</td>
-                    <td class="value border-start-0">
-                        : {{ $resume->no_rawat }}
-                    </td>
-
-                    <td class="label border-end-0">No Telp</td>
-                    <td class="value border-start-0">
-                        : {{ $resume->no_tlp ?? "-" }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="label border-end-0">Alamat Lengkap</td>
-                    <td colspan="3" class="value border-start-0">
-                        : {{ $resume->alamat ?? "-" }}
-                    </td>
-                </tr>
-            </table>
-            <br>
-
-            {{-- ================= TANGGAL PERAWATAN ================= --}}
-            <table class="resume-tanggal">
-                <tr>
-                    <td class="label">Tgl. Masuk RS</td>
-                    <td class="value">
-                        : {{ \Carbon\Carbon::parse($resume->tgl_registrasi)->format("d-m-Y") }}
-                    </td>
-
-                    <td class="label">Tanggal Keluar RS</td>
-                    <td class="value">
-                        : {{ \Carbon\Carbon::parse($resume->tgl_keluar)->format("d-m-Y") }}
-                    </td>
-
-                    <td class="label">Tanggal Meninggal</td>
-                    <td class="value">: -</td>
-                </tr>
-            </table>
-
-            <table class="tgResume" width="100%">
-                <tbody>
-
-                    <tr>
-                        <td width="35%"><strong>Diagnosa Medis</strong></td>
-                        <td width="65%">{{ $resume->diagnosa_awal }}</td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>Dokter yang Merawat</strong></td>
-                        <td>{{ $resume->nm_dokter }}</td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>Dokter Konsultan</strong></td>
-                        {{-- <td>{{ $resume->nm_dokter }}</td> --}}
-                        <td>-</td>
-                    </tr>
-
-                    {{-- ANAMNESIS --}}
-                    <tr>
-                        <td><strong><strong>Anamnesis</strong><br>
-                                -> Keluhan Utama<br>
-                                -> Riwayat Penyakit Sekarang<br>
-                                -> Riwayat Penyakit Dahulu</strong></td>
-                        <td>{!! nl2br(e($resume->keluhan_utama)) !!}</td>
-                    </tr>
-
-                    {{-- PEMERIKSAAN --}}
-                    <tr>
-                        <td><strong><strong>Hasil Pemeriksaan waktu MRS</strong><br>
-                                -> Fisik<br></td>
-                        <td>
-                            {!! $resume->pemeriksaan_fisik ? nl2br(e($resume->pemeriksaan_fisik)) : "Tidak Dilakukan" !!}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><strong><strong>Hasil Pemeriksaan waktu MRS</strong><br>
-                                -> Laborat</strong></td>
-                        <td>
-                            {!! $resume->hasil_laborat ? nl2br(e($resume->hasil_laborat)) : "Tidak Dilakukan" !!}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><strong><strong>Hasil Pemeriksaan waktu MRS</strong><br>
-                                -> Radiologi, dan Lain-lain</strong></td>
-                        <td>
-                            {!! $resume->pemeriksaan_penunjang ? nl2br(e($resume->pemeriksaan_penunjang)) : "Tidak Dilakukan" !!}
-                        </td>
-                    </tr>
-
-                    {{-- DIAGNOSIS AKHIR --}}
-                    <tr>
-                        <td>
-                            <strong>Diagnosis Akhir <br>
-                                Diagnosis PA</strong> <br>
-                            <small>(Ditulis huruf balok dan tidak disingkat)</small>
-                        </td>
-                        <td>
-                            <strong>
-                                {{ strtoupper($resume->diagnosa_utama) }}
-                                ({{ $resume->kd_diagnosa_utama }})
-                            </strong>
-                        </td>
-                    </tr>
-
-                    {{-- PENGOBATAN --}}
-                    <tr>
-                        <td><strong>Pengobatan</strong></td>
-                        <td>{!! nl2br(e($resume->obat_di_rs)) !!}</td>
-                    </tr>
-
-                    {{-- PROSEDUR --}}
-                    <tr>
-                        <td><strong>Prosedur Tindakan</strong></td>
-                        <td>{{ $resume->tindakan_dan_operasi }}</td>
-                    </tr>
-
-                    {{-- RENCANA --}}
-                    <tr>
-                        <td><strong>Rencana Pemeriksaan Lanjutan</strong></td>
-                        <td>
-                            Kontrol {{ \Carbon\Carbon::parse($resume->kontrol)->format("d-m-Y H:i") }}<br>
-                            {{ $resume->ket_dilanjutkan }}
-                        </td>
-                    </tr>
-
-                    {{-- KEADAAN --}}
-                    <tr>
-                        <td><strong>Keadaan Waktu Keluar RS</strong></td>
-                        <td>{{ $resume->keadaan }}</td>
-                    </tr>
-
-                    {{-- ANJURAN --}}
-                    <tr>
-                        <td><strong>Anjuran Perawatan di Rumah</strong></td>
-                        <td>
-                            {!! nl2br(e($resume->edukasi)) !!}<br><br>
-                            <strong>Obat Pulang</strong><br>
-                            {!! nl2br(e($resume->obat_pulang)) !!}
-                        </td>
-                    </tr>
-
-                    {{-- PROGNOSIS --}}
-                    <tr>
-                        <td><strong>Prognosis / Sebab Meninggal</strong></td>
-                        <td>-</td>
-                    </tr>
-
-                    {{-- TTD --}}
-                    <tr>
-                        <td><strong>Nama Dokter yang Merawat</strong></td>
-                        <td class="tg-dvpl">
-                            Paciran, {{ \Carbon\Carbon::parse($resume->tgl_registrasi)->translatedFormat("d F Y") }}
-                            <br><br>
-
-                            <img style="text-align:center;"
-                                src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Dokter: " . $resume->nm_dokter, "QRCODE", 3, 3) }}"
-                                width="70">
-
-                            <br>
-                            <strong>{{ $resume->nm_dokter }}</strong>
-                        </td>
-
-                    </tr>
-
-                </tbody>
-            </table>
-        @endif
-
         @if ($spri)
             @php
                 $data = $cppt->first();
@@ -857,7 +369,6 @@
                     preg_replace('/^(SDR|TN|NY|AN|BY|NN)\s+|,?\s*(SDR|TN|NY|AN|BY|NN)$/i', "", $data->nm_pasien ?? ""),
                 );
             @endphp
-            <div class="page-break"></div>
 
             <div class="header">
                 <table class="header-table" width="100%">
@@ -1156,6 +667,494 @@
                 </table>
 
             </div>
+        @endif
+
+        @if ($cppt)
+            {{-- ================= HEADER ================= --}}
+            <div class="header">
+                <table class="header-table" width="100%">
+                    @php
+                        $data = $cppt->first();
+
+                        $namaBersih = trim(
+                            preg_replace(
+                                '/^(SDR|TN|NY|AN|BY|NN)\s+|,?\s*(SDR|TN|NY|AN|BY|NN)$/i',
+                                "",
+                                $data->nm_pasien ?? "",
+                            ),
+                        );
+                    @endphp
+
+                    <tr>
+                        <td width="15%">
+                            <img src="{{ public_path("dist/assets/images/Pku.png") }}" height="85">
+                        </td>
+
+                        <td width="45%">
+                            <div class="rs-name">
+                                {{ $setting->nama_instansi ?? "NAMA FASILITAS KESEHATAN" }}
+                            </div>
+                            <div class="rs-address">
+                                {{ $setting->alamat_instansi ?? "" }} <br>
+                                {{ $setting->kabupaten ?? "" }} - {{ $setting->propinsi ?? "" }} <br>
+                                Telp: {{ $setting->kontak ?? "" }} |
+                                Email: {{ $setting->email ?? "" }}
+                            </div>
+                        </td>
+
+                        <td width="40%">
+                            <div class="patient-box">
+                                <b>No. RM</b> : {{ $data->no_rkm_medis ?? "" }} <br>
+                                <b>Nama</b> : {{ $namaBersih }} <br>
+                                <b>JK</b> :
+                                {{ ($data->jk ?? "") == "L" ? "Laki-laki" : "Perempuan" }} <br>
+                                <b>Tgl Lahir</b> :
+                                {{ $data->tgl_lahir ?? "" }} <br>
+                            </div>
+                            <br>
+                            Dicetak pada : {{ now()->format("d-m-Y H:i") }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            {{-- ================= CPPT ================= --}}
+            <div class="section-title">
+                Catatan Perkembangan Pasien Terintegrasi (CPPT)
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th width="12%">Tgl / Jam</th>
+                        <th width="12%">Profesi</th>
+                        <th width="46%">SOAP</th>
+                        <th width="15%">Instruksi</th>
+                        <th width="15%">Paraf</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach ($cppt as $row)
+                        <tr>
+                            <td class="text-center">
+                                {{ $row->tgl_perawatan }} <br>
+                                {{ $row->jam_rawat }}
+                            </td>
+
+                            <td>{{ $row->jabatan }}</td>
+
+                            <td>
+                                <div class="soap-title">S :</div>
+                                <div class="soap-content">
+                                    {!! nl2br(e($row->keluhan ?? "-")) !!}
+                                </div>
+
+                                <div class="soap-title">O :</div>
+                                <div class="soap-content">
+                                    {!! nl2br(e($row->pemeriksaan ?? "-")) !!}<br>
+                                    TD: {{ $row->tensi ?? "-" }} &nbsp;&nbsp;&nbsp;
+                                    S: {{ $row->suhu_tubuh ?? "-" }} &nbsp;&nbsp;&nbsp;
+                                    N: {{ $row->nadi ?? "-" }} &nbsp;&nbsp;&nbsp;
+                                    RR: {{ $row->respirasi ?? "-" }} &nbsp;&nbsp;&nbsp;
+                                    SpO2: {{ $row->spo2 ?? "-" }}
+
+                                </div>
+
+                                <div class="soap-title">A :</div>
+                                <div class="soap-content">
+                                    {!! nl2br(e($row->penilaian ?? "-")) !!}
+                                </div>
+
+                                <div class="soap-title">P :</div>
+                                <div class="soap-content">
+                                    {!! nl2br(e($row->rtl ?? "-")) !!}
+                                </div>
+                            </td>
+
+                            <td>{!! nl2br(e($row->instruksi ?? "-")) !!}</td>
+
+                            <td class="text-center">
+                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Dokter: " . $row->nama_dokter, "QRCODE", 3, 3) }}"
+                                    width="60">
+                                <div style="font-size:9px;margin-top:4px;">
+                                    {{ $row->nama_dokter }}
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+
+        {{-- ================= RESUME MEDIS ================= --}}
+        @if ($resume)
+            @php
+                $data = $cppt->first();
+
+                $namaBersih = trim(
+                    preg_replace('/^(SDR|TN|NY|AN|BY|NN)\s+|,?\s*(SDR|TN|NY|AN|BY|NN)$/i', "", $data->nm_pasien ?? ""),
+                );
+            @endphp
+            <div class="page-break"></div>
+            <div class="header">
+                <table class="header-table" width="100%">
+                    <tr>
+                        <td width="15%">
+                            <img src="{{ public_path("dist/assets/images/Pku.png") }}" height="85">
+                        </td>
+
+                        <td width="45%">
+                            <div class="rs-name">
+                                {{ $setting->nama_instansi ?? "NAMA FASILITAS KESEHATAN" }}
+                            </div>
+                            <div class="rs-address">
+                                {{ $setting->alamat_instansi ?? "" }} <br>
+                                {{ $setting->kabupaten ?? "" }} - {{ $setting->propinsi ?? "" }} <br>
+                                Telp: {{ $setting->kontak ?? "" }} |
+                                Email: {{ $setting->email ?? "" }}
+                            </div>
+                        </td>
+
+                        <td width="40%">
+                            <div class="patient-box">
+                                <b>No. RM</b> : {{ $data->no_rkm_medis ?? "" }} <br>
+                                <b>Nama</b> : {{ $namaBersih }} <br>
+                                <b>JK</b> :
+                                {{ ($data->jk ?? "") == "L" ? "Laki-laki" : "Perempuan" }} <br>
+                                <b>Tgl Lahir</b> :
+                                {{ $data->tgl_lahir ?? "" }} <br>
+                            </div>
+                            <br>
+                            Dicetak pada : {{ now()->format("d-m-Y H:i") }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            {{-- ================= RESUME MEDIS ================= --}}
+            <div class="section-title">
+                Resume Medis (Medical Discharge Summary)
+            </div>
+
+            <table class="resume-identitas">
+                <tr>
+                    <td class="label border-end-0">Nama Lengkap</td>
+                    <td class="value border-start-0">
+                        : {{ $namaBersih }}
+                    </td>
+
+                    <td class="label border-end-0">Ruang / Kelas</td>
+                    <td class="value border-start-0">
+                        : {{ $resume->kd_kamar ?? "-" }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label border-end-0">No. Reg</td>
+                    <td class="value border-start-0">
+                        : {{ $resume->no_rawat }}
+                    </td>
+
+                    <td class="label border-end-0">No Telp</td>
+                    <td class="value border-start-0">
+                        : {{ $resume->no_tlp ?? "-" }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label border-end-0">Alamat Lengkap</td>
+                    <td colspan="3" class="value border-start-0">
+                        : {{ $resume->alamat ?? "-" }}
+                    </td>
+                </tr>
+            </table>
+            <br>
+
+            {{-- ================= TANGGAL PERAWATAN ================= --}}
+            <table class="resume-tanggal">
+                <tr>
+                    <td class="label">Tgl. Masuk RS</td>
+                    <td class="value">
+                        : {{ \Carbon\Carbon::parse($resume->tgl_registrasi)->format("d-m-Y") }}
+                    </td>
+
+                    <td class="label">Tanggal Keluar RS</td>
+                    <td class="value">
+                        : {{ \Carbon\Carbon::parse($resume->tgl_keluar)->format("d-m-Y") }}
+                    </td>
+
+                    <td class="label">Tanggal Meninggal</td>
+                    <td class="value">: -</td>
+                </tr>
+            </table>
+
+            <table class="tgResume" width="100%">
+                <tbody>
+
+                    <tr>
+                        <td width="35%"><strong>Diagnosa Medis</strong></td>
+                        <td width="65%">{{ $resume->diagnosa_awal }}</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Dokter yang Merawat</strong></td>
+                        <td>{{ $resume->nm_dokter }}</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Dokter Konsultan</strong></td>
+                        {{-- <td>{{ $resume->nm_dokter }}</td> --}}
+                        <td>-</td>
+                    </tr>
+
+                    {{-- ANAMNESIS --}}
+                    <tr>
+                        <td><strong><strong>Anamnesis</strong><br>
+                                -> Keluhan Utama<br>
+                                -> Riwayat Penyakit Sekarang<br>
+                                -> Riwayat Penyakit Dahulu</strong></td>
+                        <td>{!! nl2br(e($resume->keluhan_utama)) !!}</td>
+                    </tr>
+
+                    {{-- PEMERIKSAAN --}}
+                    <tr>
+                        <td><strong><strong>Hasil Pemeriksaan waktu MRS</strong><br>
+                                -> Fisik<br></td>
+                        <td>
+                            {!! $resume->pemeriksaan_fisik ? nl2br(e($resume->pemeriksaan_fisik)) : "Tidak Dilakukan" !!}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong><strong>Hasil Pemeriksaan waktu MRS</strong><br>
+                                -> Laborat</strong></td>
+                        <td>
+                            {!! $resume->hasil_laborat ? nl2br(e($resume->hasil_laborat)) : "Tidak Dilakukan" !!}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong><strong>Hasil Pemeriksaan waktu MRS</strong><br>
+                                -> Radiologi, dan Lain-lain</strong></td>
+                        <td>
+                            {!! $resume->pemeriksaan_penunjang ? nl2br(e($resume->pemeriksaan_penunjang)) : "Tidak Dilakukan" !!}
+                        </td>
+                    </tr>
+
+                    {{-- DIAGNOSIS AKHIR --}}
+                    <tr>
+                        <td>
+                            <strong>Diagnosis Akhir <br>
+                                Diagnosis PA</strong> <br>
+                            <small>(Ditulis huruf balok dan tidak disingkat)</small>
+                        </td>
+                        <td>
+                            <strong>
+                                {{ strtoupper($resume->diagnosa_utama) }}
+                                ({{ $resume->kd_diagnosa_utama }})
+                            </strong>
+                        </td>
+                    </tr>
+
+                    {{-- PENGOBATAN --}}
+                    <tr>
+                        <td><strong>Pengobatan</strong></td>
+                        <td>{!! nl2br(e($resume->obat_di_rs)) !!}</td>
+                    </tr>
+
+                    {{-- PROSEDUR --}}
+                    <tr>
+                        <td><strong>Prosedur Tindakan</strong></td>
+                        <td>{{ $resume->tindakan_dan_operasi }}</td>
+                    </tr>
+
+                    {{-- RENCANA --}}
+                    <tr>
+                        <td><strong>Rencana Pemeriksaan Lanjutan</strong></td>
+                        <td>
+                            Kontrol {{ \Carbon\Carbon::parse($resume->kontrol)->format("d-m-Y H:i") }}<br>
+                            {{ $resume->ket_dilanjutkan }}
+                        </td>
+                    </tr>
+
+                    {{-- KEADAAN --}}
+                    <tr>
+                        <td><strong>Keadaan Waktu Keluar RS</strong></td>
+                        <td>{{ $resume->keadaan }}</td>
+                    </tr>
+
+                    {{-- ANJURAN --}}
+                    <tr>
+                        <td><strong>Anjuran Perawatan di Rumah</strong></td>
+                        <td>
+                            {!! nl2br(e($resume->edukasi)) !!}<br><br>
+                            <strong>Obat Pulang</strong><br>
+                            {!! nl2br(e($resume->obat_pulang)) !!}
+                        </td>
+                    </tr>
+
+                    {{-- PROGNOSIS --}}
+                    <tr>
+                        <td><strong>Prognosis / Sebab Meninggal</strong></td>
+                        <td>-</td>
+                    </tr>
+
+                    {{-- TTD --}}
+                    <tr>
+                        <td><strong>Nama Dokter yang Merawat</strong></td>
+                        <td class="tg-dvpl">
+                            Paciran, {{ \Carbon\Carbon::parse($resume->tgl_registrasi)->translatedFormat("d F Y") }}
+                            <br><br>
+
+                            <img style="text-align:center;"
+                                src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Dokter: " . $resume->nm_dokter, "QRCODE", 3, 3) }}"
+                                width="70">
+
+                            <br>
+                            <strong>{{ $resume->nm_dokter }}</strong>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+        @endif
+
+        {{-- ================= LAB ================= --}}
+        @if ($headerLab)
+            @php
+                $data = $cppt->first();
+
+                $namaBersih = trim(
+                    preg_replace('/^(SDR|TN|NY|AN|BY|NN)\s+|,?\s*(SDR|TN|NY|AN|BY|NN)$/i', "", $data->nm_pasien ?? ""),
+                );
+            @endphp
+            <div class="page-break"></div>
+            <div class="header">
+                <table class="header-table" width="100%">
+                    <tr>
+                        <td width="15%">
+                            <img src="{{ public_path("dist/assets/images/Pku.png") }}" height="85">
+                        </td>
+
+                        <td width="45%">
+                            <div class="rs-name">
+                                {{ $setting->nama_instansi ?? "NAMA FASILITAS KESEHATAN" }}
+                            </div>
+                            <div class="rs-address">
+                                {{ $setting->alamat_instansi ?? "" }} <br>
+                                {{ $setting->kabupaten ?? "" }} - {{ $setting->propinsi ?? "" }} <br>
+                                Telp: {{ $setting->kontak ?? "" }} |
+                                Email: {{ $setting->email ?? "" }}
+                            </div>
+                        </td>
+
+                        <td width="40%">
+                            <div class="patient-box">
+                                <b>No. RM</b> : {{ $data->no_rkm_medis ?? "" }} <br>
+                                <b>Nama</b> : {{ $namaBersih }} <br>
+                                <b>JK</b> :
+                                {{ ($data->jk ?? "") == "L" ? "Laki-laki" : "Perempuan" }} <br>
+                                <b>Tgl Lahir</b> :
+                                {{ $data->tgl_lahir ?? "" }} <br>
+                            </div>
+                            <br>
+                            Dicetak pada : {{ now()->format("d-m-Y H:i") }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="section-title">
+                Hasil Pemeriksaan Laboratorium
+            </div>
+
+            {{-- ================= HEADER LAB ================= --}}
+            <div class="lab-header-box">
+                <table class="lab-header-table" width="100%">
+                    <tr>
+                        <td width="50%">
+                            <b>No. Periksa</b> : {{ $headerLab->no_rawat }} <br>
+                            <b>Dokter Pengirim</b> : {{ $headerLab->dokter_perujuk_nama }} <br>
+                            <b>Petugas Lab</b> : {{ $headerLab->petugas_lab }}
+                        </td>
+
+                        <td width="50%">
+                            <b>Tgl. Keluar Hasil</b> : {{ $headerLab->tgl_periksa_format }} <br>
+                            <b>Jam Keluar Hasil</b> : {{ $headerLab->jam }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            {{-- ================= TABEL HASIL ================= --}}
+            <table class="lab-table">
+                <thead>
+                    <tr>
+                        <th width="35%">Pemeriksaan</th>
+                        <th width="15%">Hasil</th>
+                        <th width="15%">Satuan</th>
+                        <th width="20%">Nilai Rujukan</th>
+                        <th width="15%">Keterangan</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @php $group=null; @endphp
+                    @foreach ($detailLab as $item)
+                        @if ($group != $item->nm_perawatan)
+                            <tr class="lab-group">
+                                <td colspan="5">{{ $item->nm_perawatan }}</td>
+                            </tr>
+                            @php $group = $item->nm_perawatan; @endphp
+                        @endif
+
+                        <tr>
+                            <td>{{ $item->Pemeriksaan }}</td>
+                            <td class="text-center"><b>{{ $item->nilai }}</b></td>
+                            <td class="text-center">{{ $item->satuan }}</td>
+                            <td class="text-center">{{ $item->nilai_rujukan }}</td>
+                            <td class="text-center">{{ $item->keterangan }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{-- ================= LAB FOOTER ================= --}}
+            <div class="lab-footer">
+
+                <table class="lab-signature-table" width="100%">
+                    <tr>
+                        {{-- Penanggung Jawab --}}
+                        <td width="50%" align="center">
+                            <div class="signature-title">Penanggung Jawab</div>
+
+                            <div class="signature-box">
+                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Penanggung Jawab: " . $headerLab->nm_dokter, "QRCODE", 3, 3) }}"
+                                    width="80">
+                                <div style="margin-top:6px;">
+                                    {{ $headerLab->nm_dokter }}
+                                </div>
+                            </div>
+                        </td>
+
+                        {{-- Petugas Laboratorium --}}
+                        <td width="50%" align="center">
+                            <div class="signature-title" style="margin-top:5px;">
+                                Petugas Laboratorium
+                            </div>
+
+                            <div class="signature-box">
+                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Petugas Lab: " . $headerLab->petugas_lab, "QRCODE", 3, 3) }}"
+                                    width="80">
+                                <div style="margin-top:6px;">
+                                    {{ $headerLab->petugas_lab }}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
         @endif
 
     </body>
