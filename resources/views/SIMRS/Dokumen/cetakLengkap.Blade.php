@@ -369,7 +369,6 @@
                     preg_replace('/^(SDR|TN|NY|AN|BY|NN)\s+|,?\s*(SDR|TN|NY|AN|BY|NN)$/i', "", $data->nm_pasien ?? ""),
                 );
             @endphp
-
             <div class="header">
                 <table class="header-table" width="100%">
                     <tr>
@@ -775,7 +774,7 @@
                             <td>{!! nl2br(e($row->instruksi ?? "-")) !!}</td>
 
                             <td class="text-center">
-                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Dokter: " . $row->nama_dokter, "QRCODE", 3, 3) }}"
+                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Yang melakukan: " . $row->nama_dokter, "QRCODE", 3, 3) }}"
                                     width="60">
                                 <div style="font-size:9px;margin-top:4px;">
                                     {{ $row->nama_dokter }}
