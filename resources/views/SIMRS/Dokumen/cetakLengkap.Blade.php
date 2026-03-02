@@ -373,7 +373,7 @@
                 <table class="header-table" width="100%">
                     <tr>
                         <td width="15%">
-                            <img src="{{ public_path("dist/assets/images/Pku.png") }}" height="85">
+                            <img src="{{ public_path("dist/assets/images/pku_v3.png") }}" height="85">
                         </td>
 
                         <td width="45%">
@@ -478,7 +478,7 @@
                             <br><br>
 
                             @if (!empty($spri->dpjp_nama))
-                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Dokter: " . $spri->dpjp_nama, "QRCODE", 3, 3) }}"
+                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Dokter: " . $spri->dpjp_nama . "\nSIP: " . $spri->nomor_sip, "QRCODE", 3, 3) }}"
                                     width="70" style="margin-bottom:10px;">
                                 <br>
                                 <strong>{{ $spri->dpjp_nama }}</strong>
@@ -504,7 +504,7 @@
                 <table class="header-table" width="100%">
                     <tr>
                         <td width="15%">
-                            <img src="{{ public_path("dist/assets/images/Pku.png") }}" height="85">
+                            <img src="{{ public_path("dist/assets/images/pku_v3.png") }}" height="85">
                         </td>
 
                         <td width="45%">
@@ -638,7 +638,7 @@
                         <td width="50%" style="text-align: center;">
                             Penderita / Anggota Keluarga
                             <br><br>
-                            <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Dokter: " . $namaBersih, "QRCODE", 3, 3) }}"
+                            <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Pasien: " . $namaBersih, "QRCODE", 3, 3) }}"
                                 width="70" style="margin-bottom:10px;">
                             <br>
 
@@ -656,7 +656,7 @@
                             <br><br>
 
                             @if (!empty($spri->dpjp_nama))
-                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Dokter: " . $spri->dpjp_nama, "QRCODE", 3, 3) }}"
+                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Dokter: " . $spri->dpjp_nama . "\nSIP: " . $spri->nomor_sip, "QRCODE", 3, 3) }}"
                                     width="70" style="margin-bottom:10px;">
                                 <br>
                                 <strong>{{ $spri->dpjp_nama }}</strong>
@@ -686,7 +686,7 @@
 
                     <tr>
                         <td width="15%">
-                            <img src="{{ public_path("dist/assets/images/Pku.png") }}" height="85">
+                            <img src="{{ public_path("dist/assets/images/pku_v3.png") }}" height="85">
                         </td>
 
                         <td width="45%">
@@ -774,7 +774,7 @@
                             <td>{!! nl2br(e($row->instruksi ?? "-")) !!}</td>
 
                             <td class="text-center">
-                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Yang melakukan: " . $row->nama_dokter, "QRCODE", 3, 3) }}"
+                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Yang melakukan: " . $row->nama_dokter . "\nSIP: " . $row->nomor_sip, "QRCODE", 3, 3) }}"
                                     width="60">
                                 <div style="font-size:9px;margin-top:4px;">
                                     {{ $row->nama_dokter }}
@@ -800,7 +800,7 @@
                 <table class="header-table" width="100%">
                     <tr>
                         <td width="15%">
-                            <img src="{{ public_path("dist/assets/images/Pku.png") }}" height="85">
+                            <img src="{{ public_path("dist/assets/images/pku_v3.png") }}" height="85">
                         </td>
 
                         <td width="45%">
@@ -995,7 +995,7 @@
                     {{-- PROGNOSIS --}}
                     <tr>
                         <td><strong>Prognosis / Sebab Meninggal</strong></td>
-                        <td>-</td>
+                        <td>{{ $resume->prognosis }}</td>
                     </tr>
 
                     {{-- TTD --}}
@@ -1006,7 +1006,7 @@
                             <br><br>
 
                             <img style="text-align:center;"
-                                src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Dokter: " . $resume->nm_dokter, "QRCODE", 3, 3) }}"
+                                src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Dokter: " . $resume->nm_dokter . "\nSIP: " . $resume->nomor_sip, "QRCODE", 3, 3) }}"
                                 width="70">
 
                             <br>
@@ -1033,7 +1033,7 @@
                 <table class="header-table" width="100%">
                     <tr>
                         <td width="15%">
-                            <img src="{{ public_path("dist/assets/images/Pku.png") }}" height="85">
+                            <img src="{{ public_path("dist/assets/images/pku_v3.png") }}" height="85">
                         </td>
 
                         <td width="45%">
@@ -1127,7 +1127,7 @@
                             <div class="signature-title">Penanggung Jawab</div>
 
                             <div class="signature-box">
-                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Penanggung Jawab: " . $headerLab->nm_dokter, "QRCODE", 3, 3) }}"
+                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Penanggung Jawab: " . $headerLab->nm_dokter . "\nSIP: " . $headerLab->nomor_sip_dokter, "QRCODE", 3, 3) }}"
                                     width="80">
                                 <div style="margin-top:6px;">
                                     {{ $headerLab->nm_dokter }}
@@ -1142,7 +1142,7 @@
                             </div>
 
                             <div class="signature-box">
-                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Petugas Lab: " . $headerLab->petugas_lab, "QRCODE", 3, 3) }}"
+                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Petugas Lab: " . $headerLab->petugas_lab . "\nSIP: " . $headerLab->nomor_str_petugas, "QRCODE", 3, 3) }}"
                                     width="80">
                                 <div style="margin-top:6px;">
                                     {{ $headerLab->petugas_lab }}
