@@ -1142,7 +1142,7 @@
                             </div>
 
                             <div class="signature-box">
-                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Petugas Lab: " . $headerLab->petugas_lab . "\nSIP: " . $headerLab->nomor_str_petugas, "QRCODE", 3, 3) }}"
+                                <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG("Petugas Lab: " . $headerLab->petugas_lab, "QRCODE", 3, 3) }}"
                                     width="80">
                                 <div style="margin-top:6px;">
                                     {{ $headerLab->petugas_lab }}
