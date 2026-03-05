@@ -26,6 +26,12 @@ class CetakDokumenLengkapController extends Controller
         //     abort(404, $e->getMessage());
         // }
     }
+
+    public function cetakResume(Request $request)
+    {
+        $no_rawat = urldecode($request->get('no_rawat'));
+        return $this->service->generateResumePdf($no_rawat);
+    }
     /**
      * Display a listing of the resource.
      */

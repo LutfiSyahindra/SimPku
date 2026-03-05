@@ -40,6 +40,7 @@ use Illuminate\Support\Facades\Route;
 
     // Dokumen
     Route::get('simrs/report/ranap', [CetakDokumenLengkapController::class, 'cetak'])->name('report.ranap');   
+    Route::get('simrs/report/ranap/resume', [CetakDokumenLengkapController::class, 'cetakResume'])->name('report.ranap.resume');   
 
 Route::get('/', function () {
     return view('auth.login');

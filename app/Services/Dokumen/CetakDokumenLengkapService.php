@@ -85,6 +85,24 @@ class CetakDokumenLengkapService
             ->stream("DokumenLengkap-{$safeNoRawat}.pdf");
     }
 
+    public function generateResumePdf(string $no_rawat){
+        $resume = $this->repo->getResumeByNoRawat($no_rawat);
+
+        if (!$resume) {
+            throw new \Exception('Data Resume tidak ditemukan');
+        }
+
+        $setting = $this->repo->getSetting();
+        $safeNoRawat = str_replace(['/', '\\'], '-', $no_rawat);
+
+        return Pdf::loadView('SIMRS.Dokumen.cetakResume', [
+                'resume' => $resume,
+                'setting' => $setting
+            ])
+            ->setPaper('A4', 'portrait')
+            ->stream("Resume-{$safeNoRawat}.pdf");
+    }
+
 
     // public function generateCpptPdf(string $no_rawat)
     // {
